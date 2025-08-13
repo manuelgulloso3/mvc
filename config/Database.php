@@ -9,8 +9,6 @@ class Database {
     private $password = "";           // Contraseña del usuario
     public $conn;                     // Propiedad pública para almacenar la conexión
 
-
-
     // Método para obtener la conexión a la base de datos
     public function getConnection() {
         $this->conn = null;           // Inicializa la conexión como null
