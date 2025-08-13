@@ -6,53 +6,62 @@ class TareaController {
     private $db;
     private $tareaModel;
 
-    public function __construct() {
+    public function __construct(){
         $database = new Database();
         $this->db = $database->getConnection();
         $this->tareaModel = new TareaModel($this->db);
     }
 
-    // Mostrar todas las tareas
-    public function index() {
+    public function index(){
         $tareas = $this->tareaModel->leer();
         include 'views/home.php';
     }
 
-    // Crear tarea
-    public function crear() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $titulo = $_POST['titulo'] ?? '';
-            $descripcion = $_POST['descripcion'] ?? '';
-
-            if (!empty($titulo) && !empty($descripcion)) {
-                if ($this->tareaModel->crear($titulo, $descripcion)) {
-                    // Redirige a la lista de tareas
-                    header("Location: index.php");
-                    exit;
-                } else {
-                    $error = "Error al guardar la tarea.";
-                }
-            } else {
-                $error = "Todos los campos son obligatorios.";
-            }
-        }
-
+    public function crear(){
         include 'views/crear.php';
     }
 
+    public function guardar(){
+        if ($_POST){
+            $titulo = $_POST['titulo'];
+            $descripcion = $_POST['descripcion'];
 
-     // guardar tarea
-     public function guardar() {
-        if($_POST)
-            $titulo = $_POST('titulo');
-       if ($this->tareaModel->crear($titulo, $descripcion)) {
+            if ($this->tareaModel->crear($titulo, $descripcion)){
+                header("Location: index.php");
+                exit();
+            } else {
+                echo "Error al crear la tarea.";
+            }
+        } else {
+            include 'views/crear.php'; // Mostrar formulario si no hay POST
+        }
+    }
 
-       header("location:index.php");}
+    public function editar(){
+        if ($_POST) {
+            $id = $_POST['id'];
+            $titulo = $_POST['titulo'];
+            $descripcion = $_POST['descripcion'];
 
-       else{
-        echo"Error al crear la tarea.";
-       }
-
+            if ($this->tareaModel->actualizar($id, $titulo, $descripcion)) {
+                header("Location: index.php");
+                exit();
+            } else {
+                echo "Error al actualizar la tarea.";
+            }
+        } else {
+            if (isset($_GET['id'])) {
+                $id = $_GET['id'];
+                $tarea = $this->tareaModel->leerUno($id);
+                if ($tarea) {
+                    include 'views/editar.php';
+                } else {
+                    echo "Tarea no encontrada.";
+                }
+            } else {
+                echo "ID de tarea no encontrada.";
+            }
+        }
+    }
 }
-
-}
+?>
