@@ -33,7 +33,7 @@ class TareaController {
                 echo "Error al crear la tarea.";
             }
         } else {
-            include 'views/crear.php'; // Mostrar formulario si no hay POST
+            include 'views/crear.php';
         }
     }
 
@@ -61,6 +61,20 @@ class TareaController {
             } else {
                 echo "ID de tarea no encontrada.";
             }
+        }
+    }
+
+    public function eliminar(){
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            if ($this->tareaModel->eliminar($id)) {
+                header("Location: index.php");
+                exit();
+            } else {
+                echo "Error al eliminar la tarea.";
+            }
+        } else {
+            echo "ID de tarea no proporcionado.";
         }
     }
 }
