@@ -6,19 +6,19 @@ $accion = $_GET['accion'] ?? 'index';
 
 switch ($accion) {
     case 'crear':
-        $controller->crear();  // Muestra el formulario para crear tarea
+        $controller->crear();
         break;
-
     case 'guardar':
-        $controller->guardar();  // Procesa el formulario para guardar tarea
+        $controller->guardar();
         break;
-
     case 'editar':
-        $controller->editar();  // Muestra o procesa la edición de tarea
+        $controller->editar();
         break;
-
+    case 'eliminar':
+        $controller->eliminar();
+        break;
     default:
-        $controller->index();  // Muestra la lista de tareas
+        $controller->index();
         break;
 }
 ?>
