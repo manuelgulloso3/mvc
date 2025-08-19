@@ -40,17 +40,22 @@ class TareaModel {
     }
 
     public function actualizar($id, $titulo, $descripcion){
-        $query = "UPDATE " . $this->table_name . " 
-                  SET titulo = :titulo, descripcion = :descripcion 
-                  WHERE id = :id";
+        $query = "UPDATE " . $this->table_name . 
+                 " SET titulo = :titulo, descripcion = :descripcion WHERE id = :id";           
         $stmt = $this->conn->prepare($query);
+
         $titulo = htmlspecialchars(strip_tags($titulo));
         $descripcion = htmlspecialchars(strip_tags($descripcion));
         $id = htmlspecialchars(strip_tags($id));
+
         $stmt->bindParam(':titulo', $titulo);
         $stmt->bindParam(':descripcion', $descripcion);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
     }
 
     public function eliminar($id){

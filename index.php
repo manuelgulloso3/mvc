@@ -14,6 +14,9 @@ switch ($accion) {
     case 'editar':
         $controller->editar();
         break;
+    case 'actualizar':
+        $controller->actualizar();  
+        break;
     case 'eliminar':
         $controller->eliminar();
         break;
