@@ -64,21 +64,6 @@ class TareaController {
         }
     }
 
-    public function actualizar(){
-        if ($_POST) {
-            $id = $_POST['id'];
-            $titulo = $_POST['titulo'];
-            $descripcion = $_POST['descripcion'];
-
-            if ($this->tareaModel->actualizar($id, $titulo, $descripcion)) {
-                header("Location: index.php");
-                exit();
-            } else {
-                echo "Error al actualizar la tarea.";
-            }
-        }
-    }
-
     public function eliminar(){
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
